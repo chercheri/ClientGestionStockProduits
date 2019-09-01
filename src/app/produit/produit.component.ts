@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { ProduitMockService } from "./produit.mock.service";
+import { ProduitService } from "./produit.service";
 import { Produit } from "../shared/produit";
 
 @Component({
@@ -15,7 +15,7 @@ export class ProduitComponent implements OnInit{
   produits : Produit[];
   produitForm : FormGroup;
 
-  constructor(private produitService : ProduitMockService, private fb : FormBuilder){
+  constructor(private produitService : ProduitService, private fb : FormBuilder){
     this.produitForm = fb.group({
       reference: ['',Validators.required],
       quantite: '',
@@ -25,11 +25,19 @@ export class ProduitComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.produits = this.produitService.getProduits();
+    this.loadProduits();
   }
 
   controlerReference():boolean{
     return this.produitForm.controls['reference'].invalid && (this.produitForm.controls['reference'].touched || this.produitForm.controls['reference'].dirty);
+  }
+
+  loadProduits(){
+    this.produitService.getProduits().subscribe(
+      data => {this.produits = data},
+      error => {console.log('An error occured.')},
+      () => {console.log('chargement des produits terminé.')}
+    );
   }
 
 }
