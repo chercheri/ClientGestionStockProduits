@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  showSideBar : boolean = false;
+  showHideSideBar : boolean = false;
   title = 'ClientGestionStockProduits';
+  onShowSide(showHideSideBar){
+    this.showHideSideBar = showHideSideBar;
+  }
 
 }
