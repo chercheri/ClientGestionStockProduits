@@ -8,6 +8,7 @@
               <th>Reference</th>
               <th>Quantite</th>
               <th>Prix Unitaire</th>
+              <td><button class="btn btn-outline-primary" (click)="operation = 'add'; initProduit();">Add</button></td>
             </tr>
           </thead>
           <tbody>
@@ -15,6 +16,8 @@
               <td>{{produit.reference}}</td>
               <td>{{produit.quantite}}</td>
               <td>{{produit.prixUnitaire}}</td>
+              <td><button class="btn btn-outline-primary" (click)="operation = 'edit'; selectedProduit = produit;">Edit</button></td>
+              <td><button class="btn btn-outline-danger" (click)="operation = 'remove'; selectedProduit = produit">Remove</button></td>
             </tr>
           </tbody>
       </table>
@@ -23,30 +26,43 @@
     <div class="col-lg-5 ">
       <div class="card">
         <div class="card-header bg-info text-white">
-          Ajouter un produit
+          {{ operation == 'add' ? 'Ajouter Produit' :
+             operation == 'edit' ? 'Modifier Produit' :
+             operation == 'remove' ? 'Supprimer Produit' : ''}}
         </div>
         <div class="card-body">
-          <form [formGroup]="produitForm" class="" action="index.html" method="post">
-              <div class="form-group">
-                <label>Réference:</label>
-                <input type="text" class="form-control" formControlName="reference">
-              </div>
-              <div class="alert alert-danger" *ngIf="controlerReference();">
-                Réference Obligatoire !!
-              </div>
-              <div class="form-group">
-                <label>Quantité:</label>
-                <input type="number" class="form-control" formControlName="quantite">
-              </div>
-              <div class="form-group">
-                <label>Prix Unitaire:</label>
-                <input type="number" class="form-control" formControlName="prixUnitaire">
-              </div>
-              <button class="btn btn-success" [disabled]="produitForm.prestine || produitForm.invalid">Ajouter</button>
-          </form>
+          <div *ngIf="operation=='add'||operation=='edit'">
+            <form [formGroup]="produitForm" class="" action="index.html" method="post">
+                <div class="form-group">
+                  <label>Réference:</label>
+                  <input type="text" class="form-control" formControlName="reference" [(ngModel)]="selectedProduit.reference">
+                </div>
+                <div class="alert alert-danger" *ngIf="controlerReference();">
+                  Réference Obligatoire !!
+                </div>
+                <div class="form-group">
+                  <label>Quantité:</label>
+                  <input type="number" class="form-control" formControlName="quantite" [(ngModel)]="selectedProduit.quantite">
+                </div>
+                <div class="form-group">
+                  <label>Prix Unitaire:</label>
+                  <input type="number" class="form-control" formControlName="prixUnitaire" [(ngModel)]="selectedProduit.prixUnitaire">
+                </div>
+                <button class="btn btn-success" [disabled]="produitForm.prestine || produitForm.invalid"
+                (click)="operation == 'add' ? addProduit() : updateProduit()">
+                {{ operation == 'add' ? 'Ajouter' : operation == 'edit' ? 'Modifier' : ''}}
+                 </button>
+            </form>
+          </div>
+          <div *ngIf="operation =='remove'">
+            <p class="card-title">
+              Référence : {{selectedProduit.reference}}
+            </p>
+            <p>Voulez-vous supprimer ce produit?</p>
+            <button class="btn btn-success" [disabled]="!selectedProduit.reference" (click)="deleteProduit()">Confirmer</button>
+          </div>
         </div>
         <div class="card-footer">
-          footer
         </div>
       </div>
     </div>
