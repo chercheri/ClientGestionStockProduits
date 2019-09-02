@@ -19,7 +19,7 @@ export class ProduitService{
   updateProduit(p : Produit): Observable<any> {
     return this.http.put(API_URLS.PRODUIT_URL, p);
   }
-  deleteProduit(reference : string): Observable<any> {
-    return this.http.delete(API_URLS.PRODUIT_URL+ `/${reference}`);
+  deleteProduit(id : number ): Observable<any> {
+    return this.http.delete(API_URLS.PRODUIT_URL+ `/${id}`);
   }
 }

@@ -26,7 +26,7 @@ export class ProduitComponent implements OnInit{
   ngOnInit(){
     this.initProduit();
     //this.loadProduits();
-    this.produits = this.route.snapshot.data.produits
+    this.produits = this.route.snapshot.data.produits;
   }
 
   createForm(){
@@ -69,9 +69,9 @@ export class ProduitComponent implements OnInit{
   }
 
   deleteProduit(){
-    this.produitService.deleteProduit(this.selectedProduit.reference).subscribe(
+    this.produitService.deleteProduit(this.selectedProduit.id).subscribe(
       res => {
-        this.initProduit();
+        this.selectedProduit = new Produit();
         this.loadProduits();
       },
 
