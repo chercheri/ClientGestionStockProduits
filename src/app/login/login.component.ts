@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   login(){
     this.appservice.authenticate(this.credentials, () => {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home/(contentOutlet:dashboard)');
     }
   );
   }

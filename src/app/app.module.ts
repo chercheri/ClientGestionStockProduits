@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -16,7 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-
+import { XhrInterceptor } from './xhr.interceptor'
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { HomeComponent } from './home/home.component';
   providers: [
     ProduitMockService,
     ProduitService,
-    AppService
+    AppService,
+    {provide: HTTP_INTERCEPTORS, useClass : XhrInterceptor, multi: true},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })
