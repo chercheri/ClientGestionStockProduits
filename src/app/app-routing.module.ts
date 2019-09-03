@@ -10,23 +10,28 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {
     path: 'home',
-    component:HomeComponent
+    component:HomeComponent,
+    children : [
+      {
+        path: 'produit',
+        component:ProduitComponent,
+        resolve:{
+          produits:ProduitResolver
+        },
+        outlet : 'contentOutlet'
+      },
+      {
+        path: 'dashboard',
+        component:DashboardComponent,
+        outlet : 'contentOutlet'
+      },
+    ]
   },
   {
     path: 'login',
     component:LoginComponent
   },
-  {
-    path: 'produit',
-    component:ProduitComponent,
-    resolve:{
-      produits:ProduitResolver
-    }
-  },
-  {
-    path: 'dashboard',
-    component:DashboardComponent
-  },
+
   {
     path: '',
     redirectTo:'/home',
