@@ -17,7 +17,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { XhrInterceptor } from './xhr.interceptor'
+import { XhrInterceptor } from './xhr.interceptor';
+import { UserComponent } from './user/user.component'
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { XhrInterceptor } from './xhr.interceptor'
     DashboardComponent,
     LoginComponent,
     HomeComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
