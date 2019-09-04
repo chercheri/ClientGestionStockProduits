@@ -3,6 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import 'rxjs/add/operator/finally';
 import { CookieService } from 'ngx-cookie-service';
 import { API_URLS } from './config/api.url.config';
+import { PrincipalState } from './shared/principal.state';
+import { Store } from '@ngrx/store';
+import { SAVE_PRINCIPAL } from './shared/save.principal.action';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,8 @@ export class AppService {
 
   authenticated = false;
   constructor(private http : HttpClient,
-              private cookieService : CookieService) { }
+              private cookieService : CookieService,
+              private store : Store<PrincipalState>) { }
 
   authenticate(credentials, callback) {
     if(credentials){
@@ -23,7 +28,19 @@ export class AppService {
 
       this.http.get(API_URLS.USER_URL, {headers: headers}).subscribe(response => {
           if (response && response['name']) {
+              console.log(response);
               this.authenticated = true;
+
+              response = {
+                ...{
+                  principal : null
+                },
+                ...response
+              };
+              this.store.dispatch({
+                type:SAVE_PRINCIPAL,
+                payload : response
+              });
           } else {
               this.authenticated = false;
           }
